@@ -1,15 +1,36 @@
 const express = require('express');
 const path = require('path');
+
+const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
+const session = require('express-session');
 const { dbConnection } = require('./database/config.js');
-const Point = require('./models/punto.js');
 
 require('dotenv').config();
 
-const app = express()
+const app = express();
 
 
 //SETTINGS
 app.set('port', process.env.PORT || 5000);
+app.set('views', path.join(__dirname, 'views'));
+app.engine('.hbs', exphbs.engine({
+    defaultLayout:'main.hbs',
+    layoutsDir: path.join(app.get('views'), 'layouts'),
+    partialsDir: path.join(app.get('views'), 'partials'),
+    extname: '.hbs'
+}));
+
+
+//Middlewares
+app.use(express.urlencoded({extended: false}));
+app.use(methodOverride('_method'));
+app.use(session({
+    secret: 'mysecretapp',
+    resave: true,
+    saveUninitialized: true
+}));
+
 
 
 
@@ -26,12 +47,10 @@ app.listen(app.get('port'), () => {
 
 
 //ROUTES
-app.use(require('./routes'));
-app.use('/api', require('./routes/api'));
+app.use(require('./routes/api/puntos'));
 
-//app.use('/deals', require('./src/routes/deals'));
 
-//Routes
-//app.use(express.static(path.join(__dirname, 'src/public')));
+//Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 

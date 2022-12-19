@@ -1,10 +1,7 @@
-require('dotenv').config();
-const { Router, response } = require('express');
-//const request = require('request');
-const router = Router();
-const Linea = require('./models/linea')
-const Recorrido = require('./models/recorrido')
-const Punto = require('./models/punto')
+const express = require('express');
+const router = express.Router();
+
+const Point = require('../../models/punto');
 
 
 router.get('/', async (req, res) => {
