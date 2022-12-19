@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Point = require('../../models/punto');
+const Linea = require('../../models/linea');
 
 
 router.get('/', async (req, res) => {
@@ -10,11 +11,18 @@ router.get('/', async (req, res) => {
     res.send(puntosDB)
 });
 
-router.post('/linea', )
+router.get('/linea', async (req, res) => {
+  const puntosDB = await Linea.find({ linea: 'L001' });
+  console.log(puntosDB);
+  res.send(puntosDB)
+});
+
+//router.post('/linea', )
 
 router.post('/api/linea', function (req, res) {
-    body = req.body
-    let lineaa = new Linea({
+    var body = req.body
+    console.log(body);
+    var newLinea = new Linea({
         linea: body.linea,
         direccion: body.direccion,
         telefono: body.telefono,
@@ -22,8 +30,11 @@ router.post('/api/linea', function (req, res) {
         foto: body.foto,
         descripcion: body.descripcion,
     })
-    lineaa.save(function (err, lineadb) {
+    newLinea.save(function (err, lineaResult) {
       if (err) { return next(err) }
-      res.json(201, lineadb)
+      res.status(201).json(lineaResult);
     })
   })
+
+
+module.exports = router;
