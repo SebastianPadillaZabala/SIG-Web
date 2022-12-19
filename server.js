@@ -1,21 +1,37 @@
-const express = require('express')
+const express = require('express');
+const path = require('path');
+const { dbConnection } = require('./database/config.js');
+const Point = require('./models/punto.js');
+
+require('dotenv').config();
+
 const app = express()
-const port = 3000
-const mongoose = require('mongoose');
-const Point = require('./models/Point.js');
 
 
-mongoose.connect('mongodb+srv://heidyolmos:sig2022@clustersig.pe3jfya.mongodb.net/proyectoSIG')
-    .then(db => console.log('DB is connceted'))
-    .catch(err => console.error(err));
+//SETTINGS
+app.set('port', process.env.PORT || 5000);
 
-app.get('/', async (req, res) =>  {
-    const puntosDB = await Point.find({ code: 'L001I' });
-    console.log(puntosDB);
-  res.send(puntosDB)
-})
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-  console.log('http://localhost:3000');
-})
+
+//START BASE DE DATOS
+dbConnection();
+
+
+
+//START SERVER 
+app.listen(app.get('port'), () => {
+  console.log('Server Listening on port ', app.get('port'));
+});
+
+
+
+//ROUTES
+app.use(require('./routes'));
+app.use('/api', require('./routes/api'));
+
+//app.use('/deals', require('./src/routes/deals'));
+
+//Routes
+//app.use(express.static(path.join(__dirname, 'src/public')));
+
+
