@@ -1,7 +1,7 @@
-require('dotenv').config();
-const { Router, response } = require('express');
-//const request = require('request');
-const router = Router();
+const express = require('express');
+const router = express.Router();
+
+const Point = require('../../models/punto');
 
 
 router.get('/', async (req, res) => {
@@ -9,3 +9,6 @@ router.get('/', async (req, res) => {
     console.log(puntosDB);
     res.send(puntosDB)
 });
+
+
+module.exports = router;
