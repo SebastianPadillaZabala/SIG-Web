@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const { dbConnection } = require('./database/config.js');
+const bodyParser = require('body-parser');
 
 require('dotenv').config();
 
@@ -14,12 +15,14 @@ const app = express();
 //SETTINGS
 app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', exphbs.engine({
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+/*app.engine('.hbs', exphbs.engine({
     defaultLayout:'main.hbs',
     layoutsDir: path.join(app.get('views'), 'layouts'),
     partialsDir: path.join(app.get('views'), 'partials'),
     extname: '.hbs'
-}));
+}));*/
 
 
 //Middlewares
@@ -30,6 +33,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 
 
 
