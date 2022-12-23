@@ -51,7 +51,7 @@ app.listen(app.get('port'), () => {
 
 
 //ROUTES
-app.use(require('./routes/api/puntos'));
+app.use('/api', require('./routes/api/puntos'));
 // app.use('/api/puntos', require('./routes/api/puntos'));
 
 
