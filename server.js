@@ -6,6 +6,8 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const { dbConnection } = require('./database/config.js');
 const bodyParser = require('body-parser');
+var cors = require('cors');
+var morgan = require('morgan');
 
 require('dotenv').config();
 
@@ -15,7 +17,14 @@ const app = express();
 //SETTINGS
 app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
-app.use(bodyParser.json())
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
+app.use(morgan('dev'));
+app.use(cors());
+
+
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 /*app.engine('.hbs', exphbs.engine({
     defaultLayout:'main.hbs',
@@ -26,13 +35,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //Middlewares
-app.use(express.urlencoded({extended: false}));
-app.use(methodOverride('_method'));
-app.use(session({
-    secret: 'mysecretapp',
-    resave: true,
-    saveUninitialized: true
-}));
+//app.use(express.urlencoded({extended: true}));
+// app.use(methodOverride('_method'));
+// app.use(session({
+//     secret: 'mysecretapp',
+//     resave: true,
+//     saveUninitialized: true
+// }));
 
 
 

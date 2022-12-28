@@ -4,13 +4,8 @@ const router = express.Router();
 const Punto = require('../../models/punto');
 const Linea = require('../../models/linea');
 const Recorrido = require('../../models/recorrido');
+const PuntoFinal = require('../../models/puntoFinal');
 
-
-// router.get('/', async (req, res) => {
-//     const puntosDB = await Punto.find({ code: 'L001I' });
-//     console.log(puntosDB);
-//     res.send(puntosDB)
-// });
 
 //-------------LINEAS--------------------------
 router.get('/all-lineas', async (req, res) => {
@@ -24,10 +19,10 @@ router.get('/una-linea/:linea', async (req, res) => {
   res.json(lineaDB, 200);
 })
 
-//----------------RECORRIDOS---------------------
+//---------------------------------RECORRIDOS-------------------------------
 router.get('/all-recorridos', async (req, res) => {
   var recorridosDB = await Recorrido.find();
-  res.json(recorridosDB, 200);
+  res.json(recorridosDB);
 })
 
 router.get('/un-recorrido/:recorrido', async (req, res) => {
@@ -36,7 +31,7 @@ router.get('/un-recorrido/:recorrido', async (req, res) => {
   res.json(recorridoDB, 200);
 })
 
-//---------------PUNTOS-------------------------------
+//-------------------------------PUNTOS----------------------------------
 router.get('/all-puntos', async (req, res) => {
   var puntosDB = await Punto.find();
   res.json(puntosDB, 200);
@@ -46,6 +41,18 @@ router.get('/puntos-code/:code', async (req, res) => {
   const codeP = req.params.code;
   var puntosDB = await Punto.find({code : codeP});
   res.json(puntosDB, 200);
+})
+
+//-------------------------PUNTOS FINAL-----------------------------
+router.get('/all-puntosFinal', async (req, res) => {
+  var puntosFinalDB = await PuntoFinal.find();
+  res.json(puntosFinalDB, 200);
+})
+
+router.get('/puntosFinal-code/:code', async (req, res) => {
+  const codeP = req.params.code;
+  var puntosFinalDB = await PuntoFinal.find({code : codeP}).sort({orden: 1});;
+  res.json(puntosFinalDB, 200);
 })
 
 
